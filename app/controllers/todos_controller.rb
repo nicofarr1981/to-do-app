@@ -20,4 +20,12 @@ class TodosController < ApplicationController
         end
             redirect_to "/todos"
     end
+
+    def destroy
+        if @current_user
+            @todo = Todo.find_by({ "id" => params["id"] })
+            @todo.destroy
+            redirect_to "/todos"
+        end
+    end
 end

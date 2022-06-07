@@ -1,9 +1,10 @@
 <table class="table">
   <tr>
-    <th>Date</th>
+    <th>Responsible</th>
     <th>To-Do</th>
     <th>Due date</th>
     <th>Done</th>
+    <th>Actions</th>
   </tr>
   <% for todo in @todos %>
     <tr>
@@ -29,6 +30,9 @@
             <circle cx="8" cy="8" r="8"/>
           </svg>
         <% end %>
+      </td>
+      <td>
+      <%= button_to "Delete", todo_path(todo), method: :delete, class: "btn btn-danger" %>
       </td>
     </tr>
   <% end %>

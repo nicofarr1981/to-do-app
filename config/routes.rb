@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get "/", :controller => "todos", :action => "index"
   get "/login", :controller => "sessions", :action => "new"
   get "/logout", :controller => "sessions", :action => "destroy"
+  get "/delete", :controller => "todos", :action => "destroy"
 
   resources "todos"
   resources "sessions"
