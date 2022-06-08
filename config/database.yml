@@ -20,6 +20,10 @@ test:
   <<: *default
   database: db/test.sqlite3
 
+# TODO: replace `my_app` below with this application's name
 production:
   <<: *default
-  database: db/production.sqlite3
+  adapter: postgresql
+#   database: justtodoit_production
+#   username: justtodoit
+#   password: <%= ENV["JUSTTODOIT_DATABASE_PASSWORD"] %>
