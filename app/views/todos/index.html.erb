@@ -20,23 +20,29 @@
         <% end %>
         </td>
         <td><%= todo["description"] %></td>
-        <td><%= todo["duedate"].strftime("%m/%d/%Y") %></td>
+        <td>
+          <% if Time.now > todo["duedate"] %>
+            <div class="text-danger"><%= todo["duedate"].strftime("%m/%d/%Y") %></divp>
+          <% else %>
+            <%= todo["duedate"].strftime("%m/%d/%Y") %>
+          <% end %>
+        </td>
         <td>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
           </svg>
         </td>
         <td>
-          <table class="table">
+          <table>
             <tr>
               <td>
-                <%= button_to "Check", update_status_todo_path(todo), method: :patch, class: "btn btn-success" %>
+                <%= button_to "Delete", todo_path(todo), method: :delete, class: "btn btn-danger btn-sm" %>
               </td>
               <td>
-                <%= button_to "Edit", edit_todo_path(todo), method: :get, class: "btn btn-warning" %>
+                <%= button_to "Edit", edit_todo_path(todo), method: :get, class: "btn btn-warning btn-sm" %>
               </td>
               <td>
-                <%= button_to "Delete", todo_path(todo), method: :delete, class: "btn btn-danger" %>
+                <%= button_to "Check", update_status_todo_path(todo), method: :patch, class: "btn btn-success btn-sm" %>
               </td>
             </tr>
           </table>
@@ -65,16 +71,16 @@
           </svg>
         </td>
         <td>
-          <table class="table">
+          <table>
             <tr>
               <td>
-                <%= button_to "Uncheck", update_status_todo_path(todo), method: :patch, class: "btn btn-success" %>
+                <%= button_to "Delete", todo_path(todo), method: :delete, class: "btn btn-danger btn-sm" %>
               </td>
               <td>
-                <%= button_to "Edit", edit_todo_path(todo), method: :get, class: "btn btn-warning" %>
+                <%= button_to "Edit", edit_todo_path(todo), method: :get, class: "btn btn-warning btn-sm" %>
               </td>
               <td>
-                <%= button_to "Delete", todo_path(todo), method: :delete, class: "btn btn-danger" %>
+                <%= button_to "Uncheck", update_status_todo_path(todo), method: :patch, class: "btn btn-success btn-sm" %>
               </td>
             </tr>
           </table>
