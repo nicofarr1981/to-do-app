@@ -7,33 +7,91 @@
     <th>Actions</th>
   </tr>
   <% for todo in @todos %>
-    <tr>
-      <td>
-      <%# find user who created post %>
-      <% user = User.find_by({ "id" => todo["user_id"] }) %>
-      <%# handle any potential bad data where the post is missing a user %>
-      <% if user %>
-        <%= user["first_name"] %>
-      <% else %>
-        anonymous
-      <% end %>
-      </td>
-      <td><%= todo["description"] %></td>
-      <td><%= todo["duedate"] %></td>
-      <td>
-        <% if todo["done"] == false %>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-          </svg>
+    <% if todo["done"] == false %>
+      <tr>
+        <td>
+        <%# find user who created post %>
+        <% user = User.find_by({ "id" => todo["user_id"] }) %>
+        <%# handle any potential bad data where the post is missing a user %>
+        <% if user %>
+          <%= user["first_name"] %>
         <% else %>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
-            <circle cx="8" cy="8" r="8"/>
-          </svg>
+          anonymous
         <% end %>
-      </td>
-      <td>
-      <%= button_to "Delete", todo_path(todo), method: :delete, class: "btn btn-danger" %>
-      </td>
-    </tr>
+        </td>
+        <td><%= todo["description"] %></td>
+        <td><%= todo["duedate"].strftime("%m/%d/%Y") %></td>
+        <td>
+          <% if todo["done"] == false %>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
+              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            </svg>
+          <% else %>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
+              <circle cx="8" cy="8" r="8"/>
+            </svg>
+          <% end %>
+        </td>
+        <td>
+          <table class="table">
+            <tr>
+              <td>
+                <%= button_to "Check", update_status_todo_path(todo), method: :patch, class: "btn btn-success" %>
+              </td>
+              <td>
+                <%= button_to "Edit", edit_todo_path(todo), method: :get, class: "btn btn-warning" %>
+              </td>
+              <td>
+                <%= button_to "Delete", todo_path(todo), method: :delete, class: "btn btn-danger" %>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    <% end %>
+  <% end %>
+  <% for todo in @todos %>
+    <% if todo["done"] == true %>
+      <tr>
+        <td>
+        <%# find user who created post %>
+        <% user = User.find_by({ "id" => todo["user_id"] }) %>
+        <%# handle any potential bad data where the post is missing a user %>
+        <% if user %>
+          <%= user["first_name"] %>
+        <% else %>
+          anonymous
+        <% end %>
+        </td>
+        <td><s><%= todo["description"] %></s></td>
+        <td><s><%= todo["duedate"].strftime("%m/%d/%Y") %></s></td>
+        <td>
+          <% if todo["done"] == false %>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
+              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            </svg>
+          <% else %>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
+              <circle cx="8" cy="8" r="8"/>
+            </svg>
+          <% end %>
+        </td>
+        <td>
+          <table class="table">
+            <tr>
+              <td>
+                <%= button_to "Check", update_status_todo_path(todo), method: :patch, class: "btn btn-success" %>
+              </td>
+              <td>
+                <%= button_to "Edit", edit_todo_path(todo), method: :get, class: "btn btn-warning" %>
+              </td>
+              <td>
+                <%= button_to "Delete", todo_path(todo), method: :delete, class: "btn btn-danger" %>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    <% end %>
   <% end %>
 </table>
