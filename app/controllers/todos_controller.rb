@@ -1,7 +1,7 @@
 class TodosController < ApplicationController
     def index
         if @current_user
-            @todos = Todo.all
+            @todos = Todo.all.sort_by(&:duedate)
         else
             flash["notice"] = "Login first."
             redirect_to "/login"
@@ -37,7 +37,12 @@ class TodosController < ApplicationController
     def edit
         if @current_user
             @todo = Todo.find_by({ "id" => params["id"] })
-            render :edit
+            if @todo["done"] == false
+                render :edit
+            else
+                flash["notice"] = "Uncheck to-do before edit."
+                redirect_to "/todos" 
+            end
         else
             flash["notice"] = "Login first."
             redirect_to "/login"
@@ -58,9 +63,14 @@ class TodosController < ApplicationController
     def update_status
         if @current_user
             @todo = Todo.find(params[:id])
-            @todo["done"] = true
+            if @todo["done"] == false
+                @todo["done"] = true
+                flash["notice"] = "To-do successfully checked off."
+            else
+                @todo["done"] = false
+                flash["notice"] = "To-do successfully unchecked."
+            end
             @todo.save
-            flash["notice"] = "To-do successfully checked off."
             redirect_to "/todos"
         else
             flash["notice"] = "Login first."
