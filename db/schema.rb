@@ -10,12 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_06_204128) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_09_174650) do
+  create_table "todolists", force: :cascade do |t|
+    t.string "title"
+    t.string "user_id"
+  end
+
   create_table "todos", force: :cascade do |t|
     t.string "description"
     t.datetime "duedate"
     t.boolean "done"
     t.integer "user_id"
+    t.integer "todolist_id"
   end
 
   create_table "users", force: :cascade do |t|
