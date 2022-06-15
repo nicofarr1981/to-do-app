@@ -1,7 +1,10 @@
 class TodosController < ApplicationController
     def index
         if @current_user
-            @todos = Todo.all.sort_by(&:duedate)
+            @todos = Todo.where({ 
+                "user_id" => @current_user["id"],
+                "todolist_id" => params["todolist_id"]
+              }).sort_by(&:duedate)
         else
             flash["notice"] = "Login first."
             redirect_to "/login"
@@ -24,6 +27,7 @@ class TodosController < ApplicationController
             @todo["duedate"] = params["todo"]["duedate"]
             @todo["done"] = false
             @todo["user_id"] = @current_user["id"]
+            @todo["todolist_id"] = params["todolist_id"]
             @todo.save
             flash["notice"] = "To-do created successfully."
             redirect_to "/todos"

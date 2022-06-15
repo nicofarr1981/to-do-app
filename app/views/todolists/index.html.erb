@@ -1,0 +1,30 @@
+<div class="col text-right">
+    <a href="/todolists/new/" class="btn btn-secondary btn-sm">New To-Do List</a>
+</div>
+
+<table class="table">
+    <tr>
+        <th>Title</th>
+        <th>User</th>
+        <th>Actions</th>
+    </tr>
+    <% for todolist in @todolists %>
+        <tr>
+            <td><a href="/todos?todolist_id=<%= todolist["id"] %>"><%= todolist["title"] %></a></td>
+            <% user = User.find_by({ "id" => @current_user["id"] }) %>
+            <td><%= user["first_name"] %></td>
+            <td>
+            <table>
+                <tr>
+                    <td>
+                        <%= button_to "Delete", todolist_path(todolist), method: :delete, class: "btn btn-danger btn-sm" %>
+                    </td>
+                    <td>
+                        <%= button_to "Edit", edit_todolist_path(todolist), method: :get, class: "btn btn-warning btn-sm" %>
+                    </td>
+                 </tr>   
+            </table>
+            </td>
+        </tr>
+    <% end %>
+</table>

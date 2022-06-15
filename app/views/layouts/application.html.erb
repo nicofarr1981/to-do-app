@@ -21,7 +21,7 @@
             <a class="nav-link" aria-current="page" href="/">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/todos">Just ToDo It!</a>
+            <a class="nav-link" href="/todolists">To-Do Lists</a>
           </li>
         </ul>
         
@@ -40,14 +40,14 @@
   </nav>
 
   <div class="container mt-3">
-    <div class="row">
-      <div class="col text-left">
-            <%= flash["notice"] %>
-      </div>
-      <div class="col text-center">
-      </div>
-      <div class="col text-right">
-        <a href="/todos/new/" class="btn btn-secondary btn-sm">New To-Do</a>
+      <div class="row">
+        <div class="col text-left">
+              <%= flash["notice"] %>
+        </div>
+        <div class="col text-center">
+        </div>
+        <div class="col text-right">
+        </div>
       </div>
       <%= yield %>
   </div>
