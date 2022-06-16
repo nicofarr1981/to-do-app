@@ -1,0 +1,14 @@
+<p>Edit To-Do List "<%= @todolist["title"] =%>"</p>
+
+<% if @current_user %>
+    <%= form_with :model => @todolist do |form| %>
+        <div class="mb-3">
+            <%= form.label "title", :class => "form-label" %>
+            <%= form.text_field "title", :class => "form-control" %>
+        </div>
+
+    <%= form.submit "Save To-Do List", :class => "btn btn-primary" %>
+<% end %>
+<% else %>
+    You must first <a href="/login">login</a> to create a To-Do.
+<% end %>

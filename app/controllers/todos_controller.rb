@@ -27,10 +27,10 @@ class TodosController < ApplicationController
             @todo["duedate"] = params["todo"]["duedate"]
             @todo["done"] = false
             @todo["user_id"] = @current_user["id"]
-            @todo["todolist_id"] = params["todolist_id"]
+            @todo["todolist_id"] = params["todo"]["todolist_id"]
             @todo.save
-            flash["notice"] = "To-do created successfully."
-            redirect_to "/todos"
+            flash["notice"] = "To-do created successfully." 
+            redirect_to "/todos?todolist_id="+@todo["todolist_id"].to_s
         else
             flash["notice"] = "Login first."
             redirect_to "/login"
@@ -45,7 +45,7 @@ class TodosController < ApplicationController
                 render :edit
             else
                 flash["notice"] = "Uncheck to-do before edit."
-                redirect_to "/todos" 
+                redirect_to "/todos?todolist_id="+@todo["todolist_id"].to_s
             end
         else
             flash["notice"] = "Login first."
@@ -57,7 +57,7 @@ class TodosController < ApplicationController
         @todo = Todo.find(params[:id])
         if @todo.update(params.require(:todo).permit(:description, :duedate))
             flash["notice"] = "To-do successfully updated."
-            redirect_to "/todos"
+            redirect_to "/todos?todolist_id="+@todo["todolist_id"].to_s
         else
             flash["notice"] = "To-do update failed."
             render :edit
@@ -75,7 +75,7 @@ class TodosController < ApplicationController
                 flash["notice"] = "To-do successfully unchecked."
             end
             @todo.save
-            redirect_to "/todos"
+            redirect_to "/todos?todolist_id="+@todo["todolist_id"].to_s
         else
             flash["notice"] = "Login first."
             redirect_to "/login"
@@ -87,7 +87,7 @@ class TodosController < ApplicationController
             @todo = Todo.find_by({ "id" => params["id"] })
             @todo.destroy
             flash["notice"] = "To-do successfully deleted."
-            redirect_to "/todos"
+            redirect_to "/todos?todolist_id="+@todo["todolist_id"].to_s
         else
             flash["notice"] = "Login first."
             redirect_to "/login"

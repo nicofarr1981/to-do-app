@@ -34,6 +34,27 @@ class TodolistsController < ApplicationController
         end
     end
 
+    def edit
+        if @current_user
+            @todolist = Todolist.find_by({ "id" => params["id"] })
+            render :edit
+        else
+            flash["notice"] = "Login first."
+            redirect_to "/login"
+        end
+    end
+    
+    def update
+        @todolist = Todolist.find(params[:id])
+        if @todolist.update(params.require(:todolist).permit(:title))
+            flash["notice"] = "To-do List successfully updated."
+            redirect_to "/todolists"
+        else
+            flash["notice"] = "To-do List update failed."
+            render :edit
+        end
+    end
+
     def destroy
         if @current_user
             @todolist = Todolist.find_by({ "id" => params["id"] })

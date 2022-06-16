@@ -12,6 +12,8 @@
         <%= form.date_field "duedate", :class => "form-control" %>
         </div>
 
+        <%= form.hidden_field :todolist_id, :value => params["todolist_id"] %>
+
     <%= form.submit "Create To-Do", :class => "btn btn-primary" %>
 <% end %>
 <% else %>
