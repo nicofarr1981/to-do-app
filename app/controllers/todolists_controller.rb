@@ -58,6 +58,12 @@ class TodolistsController < ApplicationController
     def destroy
         if @current_user
             @todolist = Todolist.find_by({ "id" => params["id"] })
+            @todos = Todo.where({ 
+                "todolist_id" => @todolist["id"]
+              })
+            for todo in @todos
+                todo.destroy
+            end
             @todolist.destroy
             flash["notice"] = "To-do list successfully deleted."
             redirect_to "/todolists"

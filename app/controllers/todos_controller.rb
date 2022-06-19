@@ -28,9 +28,14 @@ class TodosController < ApplicationController
             @todo["done"] = false
             @todo["user_id"] = @current_user["id"]
             @todo["todolist_id"] = params["todo"]["todolist_id"]
-            @todo.save
-            flash["notice"] = "To-do created successfully." 
-            redirect_to "/todos?todolist_id="+@todo["todolist_id"].to_s
+            if @todo["duedate"] >= Time.new.strftime("%Y-%m-%d")
+                @todo.save
+                flash["notice"] = "To-do created successfully." 
+                redirect_to "/todos?todolist_id="+@todo["todolist_id"].to_s
+            else
+                flash["notice"] = "Due date in the past" 
+                redirect_to "/todos/new?todolist_id="+@todo["todolist_id"].to_s
+            end
         else
             flash["notice"] = "Login first."
             redirect_to "/login"
@@ -55,12 +60,17 @@ class TodosController < ApplicationController
     
     def update
         @todo = Todo.find(params[:id])
-        if @todo.update(params.require(:todo).permit(:description, :duedate))
-            flash["notice"] = "To-do successfully updated."
-            redirect_to "/todos?todolist_id="+@todo["todolist_id"].to_s
+        if params["todo"]["duedate"] >= Time.new.strftime("%Y-%m-%d")
+            if @todo.update(params.require(:todo).permit(:description, :duedate))
+                flash["notice"] = "To-do successfully updated."
+                redirect_to "/todos?todolist_id="+@todo["todolist_id"].to_s
+            else
+                flash["notice"] = "To-do update failed."
+                render :edit
+            end
         else
-            flash["notice"] = "To-do update failed."
-            render :edit
+            flash["notice"] = "To-do update failed. Due date in the past." 
+            redirect_to "/todos?todolist_id="+@todo["todolist_id"].to_s
         end
     end
 
