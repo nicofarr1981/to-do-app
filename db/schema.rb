@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_09_174537) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_02_212829) do
   create_table "todolists", force: :cascade do |t|
     t.string "title"
     t.integer "user_id"
@@ -22,6 +22,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_09_174537) do
     t.boolean "done"
     t.integer "user_id"
     t.integer "todolist_id"
+  end
+
+  create_table "usergroups", force: :cascade do |t|
+    t.string "name"
+    t.integer "owning_user_id"
+  end
+
+  create_table "usergroupusers", force: :cascade do |t|
+    t.integer "usergroup_id"
+    t.integer "user_id"
   end
 
   create_table "users", force: :cascade do |t|

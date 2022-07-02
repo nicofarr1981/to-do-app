@@ -9,9 +9,13 @@ Rails.application.routes.draw do
   get "/delete", :controller => "todolists", :action => "destroy"
   patch "todos/:id/update", to: "todos#update_status", as: "update_status_todo"
   get "/delete", :controller => "todos", :action => "destroy"
+  get "usergroups/:id/edit", to: "usergroups#edit", as: "edit_usergroup"
+  get "/delete", :controller => "usergroups", :action => "destroy"
 
   resources "todos"
   resources "todolists"
   resources "sessions"
   resources "users"
+  resources "usergroups"
+  resources "usergroupusers"
 end

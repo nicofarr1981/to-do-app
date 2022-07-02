@@ -1,0 +1,10 @@
+<h2>Create Usergroup</h2>
+
+<%= form_with :model => @usergroup do |form| %>
+  <div class="mb-3">
+    <%= form.label "name", :class => "form-label" %>
+    <%= form.text_field "name", :class => "form-control" %>
+  </div>
+
+  <%= form.submit "Create", :class => "btn btn-primary" %>
+<% end %>
