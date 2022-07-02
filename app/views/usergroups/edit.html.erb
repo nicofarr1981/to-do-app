@@ -1,27 +1,20 @@
-<p>Edit User Group</p>
-
 <% @usergroup = Usergroup.find_by({ "id" => params["id"] }) %>
 <% @usergroupusers = Usergroupuser.find_by({ "usergroup_id" => params["id"] }) %>
 
+<p>Edit User Group <%= @usergroup["name"] %></p>
+
 <table class="table">
     <tr>
-        <th>Name</th>
         <th>User</th>
         <th>Actions</th>
     </tr>
-    <% for usergroup in @usergroups %>
-        <tr>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-        </tr>
+    <tr>
+        <% @user = User.find_by({ "id" => @usergroupusers["user_id"] }) %>
+        <td><%= @user["first_name"] %></td>
+        <td></td>
+    </tr>
+</table>
 
-<% @user = User.find_by({ "id" => @usergroupusers["user_id"] }) %>
-<%= @user["first_name"] %>
 
 <% if @current_user %>
 <% else %>
