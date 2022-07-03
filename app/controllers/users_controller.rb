@@ -1,7 +1,16 @@
 class UsersController < ApplicationController
 
+  def index
+    @users = User.all
+  end
+
   def new
     @user = User.new
+  end
+
+  def apply
+    @user = User.new
+    @users = User.pluck(:first_name, :last_name, :id)
   end
 
   def create

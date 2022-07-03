@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get "/delete", :controller => "todos", :action => "destroy"
   get "usergroups/:id/edit", to: "usergroups#edit", as: "edit_usergroup"
   get "/delete", :controller => "usergroups", :action => "destroy"
+  post "/usergroupusers/new.:id", to: "usergroupusers#new", as: "new_usergroupuser_path"
 
   resources "todos"
   resources "todolists"
