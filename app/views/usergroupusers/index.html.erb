@@ -1,9 +1,0 @@
-<div class="col text-right">
-    <a href="/usergroups/new/" class="btn btn-secondary btn-sm">New User Group</a>
-</div>
-
-<% @usergroup = Usergroup.find_by({ "id" => params["id"] }) %>
-<% @usergroupusers = Usergroupuser.find_by({ "usergroup_id" => params["id"] }) %>
-<% for usergroupuser in @usergroupusers %>
-    <%= usergroupuser["id"] %>
-<% end %>

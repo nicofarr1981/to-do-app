@@ -1,11 +1,10 @@
 <% @users_all = User.all %>
 <% @usergroup = Usergroup.find_by({ "id" => params["id"] }) %>
-<% @usergroupusers = Usergroupuser.where({ 
-                "usergroup_id" => @usergroup["id"]
-              })  %>
+<% @usergroupusers = Usergroupuser.where({ "usergroup_id" => @usergroup["id"] })  %>
 
-<p>Edit User Group <%= @usergroup["name"] %></p>
+<h3>Edit User Group <%= @usergroup["name"] %></h3>
 
+<h4>Users currently assigned</h4>
 <table class="table">
     <tr>
         <th>User</th>
@@ -14,22 +13,35 @@
     <% for usergroupuser in @usergroupusers %>
     <tr>
         <% @user = User.find_by({ "id" => usergroupuser["user_id"] }) %>
-        <td><%= @user["first_name"] %></td>
-        <td><%= button_to "Delete", usergroupuser_path(usergroupuser), method: :delete, class: "btn btn-danger btn-sm" %></td>
+        <% user_owning = @usergroup["owning_user_id"] ==  @user["id"] %>
+        <% if user_owning %>
+            <td><%= @user["first_name"] %> (Owning User)</td>
+            <td>
+            </td>
+        <% else %>
+            <td><%= @user["first_name"] %></td>
+            <td>
+                <%= button_to "Delete", usergroupuser_path(usergroupuser), method: :delete, class: "btn btn-danger btn-sm" %>
+            </td>
+        <% end %>
     </tr> 
     <% end %>
 </table>
 
+<h4>Users currently not assigned</h4>
 <table class="table">
     <tr>
         <th>User</th>
         <th>Action</th>
     </tr>
     <% for user in @users_all %>
-    <tr>
-        <td><%= user["first_name"] %></td>
-        <td><%= button_to "Add", new_usergroupuser_path(usergroupuser, :usergroup_id => @usergroup["id"], :user_id => user["id"]), method: :post, class: "btn btn-success btn-sm" %></td>
-    </tr>
+        <% user_check = Usergroupuser.where({ "usergroup_id" => @usergroup["id"], "user_id" => user }).empty? %>
+        <% if user_check %>
+            <tr>
+                <td><%= user["first_name"] %></td>
+                <td><%= button_to "Add", new_usergroupuser_path(usergroupuser, :usergroup_id => @usergroup["id"], :user_id => user["id"]), method: :post, class: "btn btn-success btn-sm" %></td>
+            </tr>
+        <% end %> 
     <% end %> 
 </table>
 
